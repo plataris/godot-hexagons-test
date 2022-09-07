@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Spatial
+
+func _ready():
+	var random_color = Color(randf(), randf(), randf())
+	var childNode: MeshInstance = $KinematicBody.get_node('Cylinder')
+	var newMat = SpatialMaterial.new()
+	newMat.albedo_color = random_color
+	childNode.set_surface_material(0, newMat)
+
+func add_height_to_mesh_instance(amount: float):
+	var childNode: MeshInstance = $KinematicBody.get_node('Cylinder')
+	childNode.mesh.height += amount
+
+	pass
+	
+# IS this needed?
+func _exit_tree():
+	queue_free()
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends KinematicBody
+
+func _ready():
+	pass # Replace with function body.
+
+#func _physics_process(delta):
+#	pass
+"
+
+[sub_resource type="CylinderShape" id=3]
+height = 0.5
+radius = 0.833197
+
+[sub_resource type="CylinderMesh" id=4]
+height = 0.5
+radial_segments = 6
+
+[node name="Hexagon" type="Spatial"]
+script = SubResource( 1 )
+
+[node name="KinematicBody" type="KinematicBody" parent="."]
+script = SubResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="KinematicBody"]
+shape = SubResource( 3 )
+
+[node name="Cylinder" type="MeshInstance" parent="KinematicBody"]
+mesh = SubResource( 4 )
+skeleton = NodePath("")
