@@ -4,6 +4,7 @@ var scaleFactor = 60
 var selected = false
 var viewportCenter: Vector2
 var hexagonNode
+var scene
 
 # the block "lerped" 2d position, used to convert between the mouse 2d and the block 3d position
 var blockLerpedPosition: Vector2 = Vector2(0, 0)
@@ -31,6 +32,7 @@ var blockNode
 func _ready():
 	viewportCenter = Vector2( get_viewport().size.x / 2, get_viewport().size.y / 2)
 	blockNode = get_node('Hexagon')
+	scene = load("res://scenes/Hexagon.tscn")
 
 func _process(_delta):
 	move_block_to_mouse(_delta)
@@ -66,7 +68,7 @@ func generate_block():
 	elif neighbors.size() == 3:
 		setBlockSize(0.5, neighbors)
 	# instanciate a new Block
-	var node: Spatial = blockNode.duplicate()
+	var node: Spatial = scene.instance()
 	
 	# convert the Hexa/Cube Coordinates to an intermediate 2d representation
 	var cartesianCoordinates = convert_hexa_to_cartesian( lastCoord)

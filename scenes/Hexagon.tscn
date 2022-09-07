@@ -11,10 +11,7 @@ func _ready():
 	childNode.set_surface_material(0, newMat)
 
 func add_height_to_mesh_instance(amount: float):
-	var childNode: MeshInstance = $KinematicBody.get_node('Cylinder')
-	childNode.mesh.height += amount
-
-	pass
+	scale.y += amount
 	
 # IS this needed?
 func _exit_tree():

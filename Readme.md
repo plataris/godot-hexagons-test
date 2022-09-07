@@ -5,9 +5,8 @@ Still a work in progress to do when i have some precious time.
 
 ## Notes
 
-Heavily Inspired/Copied by [redblobgames](https://www.redblobgames.com/grids/hexagons/) and [HexMap](https://github.com/droxpopuli/HexMap)
-
-The algorithm to make the block follow the mouse is just a bad hack. Maybe use ray tracing. Todo for later. Or not.
+Heavily Inspired/Copied by [redblobgames](https://www.redblobgames.com/grids/hexagons/) and [HexMap](https://github.com/droxpopuli/HexMap) and an [Aecert
+](https://www.twitch.tv/aecert)'s stream
 
 The Floor staticBody is there only for the mouse ray casting. That is why it has the visibility turned off.
 
