@@ -5,6 +5,7 @@ var selected = false
 var viewportCenter: Vector2
 var hexagonNode
 var scene
+var lerpWeight = 0
 
 # the block "lerped" 2d position, used to convert between the mouse 2d and the block 3d position
 var blockLerpedPosition: Vector2 = Vector2(0, 0)
@@ -34,7 +35,7 @@ func _ready():
 	blockNode = get_node('Hexagon')
 	scene = load("res://scenes/Hexagon.tscn")
 
-func _process(_delta):
+func _physics_process(_delta):
 	move_block_to_mouse(_delta)
 
 func _input(event: InputEvent):
@@ -99,9 +100,12 @@ func move_block_to_mouse(_delta):
 	var space_state = get_world().direct_space_state
 	var camera = $Camera
 	var mousePos: Vector2 = get_viewport().get_mouse_position()
-	# lerp the block position to the mouse position for a slight smoother feedback 
-	var xPos = lerp( blockLerpedPosition.x, (mousePos.x - viewportCenter.x) / scaleFactor, 33 * _delta)
-	var zPos = lerp( blockLerpedPosition.y, (mousePos.y - viewportCenter.y) / scaleFactor, 33 * _delta)
+	# delta multiplied by 30 for 1/2 second lerp weight 0 to 1 change speed:
+	# depending on 60 frames per second
+	lerpWeight = fmod (lerpWeight + _delta * 30, 1.0)
+	# lerp the block position to the mouse position for a slight smoother feedback
+	var xPos = lerp( blockLerpedPosition.x, (mousePos.x - viewportCenter.x) / scaleFactor, lerpWeight)
+	var zPos = lerp( blockLerpedPosition.y, (mousePos.y - viewportCenter.y) / scaleFactor, lerpWeight)
 	blockLerpedPosition = Vector2(xPos, zPos)
 
 	var from: Vector3 = camera.project_ray_origin(blockLerpedPosition)
